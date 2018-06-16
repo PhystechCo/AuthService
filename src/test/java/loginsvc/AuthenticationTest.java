@@ -22,8 +22,8 @@ import io.jsonwebtoken.SignatureException;
 
 public class AuthenticationTest {
 
-	static String username = "aosorio@phystech";
-	static String password = "12345678";
+	static String username = "aosorio@phystech.co";
+	static String password = "12345678*";
 	static String role = "test";
 
 	static Object testToken;

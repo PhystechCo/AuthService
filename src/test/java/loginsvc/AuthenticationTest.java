@@ -22,8 +22,8 @@ import io.jsonwebtoken.SignatureException;
 
 public class AuthenticationTest {
 
-	static String username = "aosorio@phystech.co";
-	static String password = "12345678*";
+	static String username = "osorio.af@gmail.com";
+	static String password = "12345678!";
 	static String role = "test";
 
 	static Object testToken;
@@ -54,7 +54,7 @@ public class AuthenticationTest {
 			slf4jLogger.info("Delete test user");
 		else
 			slf4jLogger.info("Warning: could not delete test user");
-
+		 
 	}
 
 	@Test

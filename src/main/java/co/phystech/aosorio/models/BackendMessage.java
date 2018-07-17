@@ -38,6 +38,12 @@ public class BackendMessage {
 		public void setValue(String value) {
 			this.value = value;
 		}
+
+		
+		@Override
+		public String toString() {
+			return "error: " + String.valueOf(errorInd) + " value: " + value;
+		}
 		
 	}
 	
@@ -55,6 +61,5 @@ public class BackendMessage {
 		response.setValue(message);
 		return response;
 	}
-	
 	
 }

@@ -21,6 +21,7 @@ import co.phystech.aosorio.services.AuthenticationJWT;
 import io.jsonwebtoken.SignatureException;
 import spark.Request;
 import spark.Response;
+import static spark.Spark.halt;
 
 /**
  * @author AOSORIO
@@ -71,15 +72,13 @@ public class AuthenticationSvc {
 
 	public static Object checkAccess(Request pRequest, Response pResponse) {
 
-		slf4jLogger.info("login body: " + pRequest.body());
-
 		BackendMessage messager = new BackendMessage();
-
 		Object response = null;
-
-		pResponse.type("application/json");
-
+		
 		try {
+			slf4jLogger.info("BODY: " + pRequest.body());
+			
+			pResponse.type("application/json");
 
 			slf4jLogger.info("Check access " + pRequest.headers("Authorization"));
 
@@ -98,13 +97,11 @@ public class AuthenticationSvc {
 
 		} catch (SignatureException ex) {
 			slf4jLogger.info(ex.getMessage());
-			response = messager.getNotOkMessage("invalid");
-			pResponse.status(401);
+			halt(401, GeneralSvc.dataToJson(messager.getNotOkMessage("invalid")));
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			response = messager.getNotOkMessage("invalid");
-			pResponse.status(401);
+			slf4jLogger.info(ex.getMessage());
+			halt(401, GeneralSvc.dataToJson(messager.getNotOkMessage("invalid")));
 		}
 
 		return response;

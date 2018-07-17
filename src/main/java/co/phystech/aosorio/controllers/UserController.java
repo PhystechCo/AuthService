@@ -4,6 +4,8 @@
 package co.phystech.aosorio.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import co.phystech.aosorio.config.Constants;
 import co.phystech.aosorio.models.BackendMessage;
 import co.phystech.aosorio.models.NewUserPayload;
+import co.phystech.aosorio.models.TestUser;
 import spark.Request;
 import spark.Response;
 
@@ -76,6 +79,32 @@ private final static Logger slf4jLogger = LoggerFactory.getLogger(UserController
 			return returnMessage.getNotOkMessage("Problem adding user");
 		} 
 	
+	}
+	
+public static Object getTestUsers(Request pRequest, Response pResponse) {
+					
+		pResponse.type("application/json");
+		
+		List<TestUser> users = new ArrayList<TestUser>();
+		
+		TestUser user = new TestUser();
+		user.setNumber(101);
+		user.setFirstName("Jhon");
+		user.setLastName("Smith");
+		user.setPassword("xxxxx");
+		user.setUsername("jsmith");		
+		users.add(user);
+		
+		user = new TestUser();
+		user.setNumber(102);
+		user.setFirstName("Rebecca");
+		user.setLastName("Smith");
+		user.setPassword("xxxxx");
+		user.setUsername("rsmith");		
+		users.add(user);
+		
+		return users;
+		
 	}
 	
 }

@@ -32,6 +32,9 @@ public class Main {
 		CorsFilter.apply();
 
 		get("/hello", (req, res) -> "Login service deployed");
+		
+		// ... Administrative services protection
+		before(Routes.ADMIN + "*", AuthenticationSvc::authAdmin);
 
 		post(Routes.AUTH + "login/", AuthenticationSvc::doLogin, GeneralSvc.json());
 
@@ -39,11 +42,11 @@ public class Main {
 
 		post(Routes.AUTH + "access/", AuthenticationSvc::checkAccess, GeneralSvc.json());
 
-		// ... Administrative services
-
-		before(Routes.ADMIN + "*", AuthenticationSvc::authAdmin);
+		// ... Administrative
 
 		post(Routes.ADMIN + "users/", UserController::createUser, GeneralSvc.json());
+		
+		get(Routes.ADMIN + "users/", UserController::getTestUsers, GeneralSvc.json());
 
 		options("/*", (request, response) -> {
 

@@ -22,7 +22,7 @@ import com.mongodb.ServerAddress;
  *
  */
 public class CfgController {
-	
+
 	private static String dbEnv;
 	private static String dbType;
 	private static String dbServerUrl;
@@ -31,12 +31,12 @@ public class CfgController {
 	private static String dbAddress;
 	private static String dbUser;
 	private static String dbPass;
-	
+
 	private static String[] dbReplicaSetIPs;
 	private static List<ServerAddress> dbServerAdresses;
-	
+
 	private final static Logger slf4jLogger = LoggerFactory.getLogger(CfgController.class);
-	
+
 	public CfgController(String pConfig) {
 
 		Properties prop = new Properties();
@@ -50,34 +50,38 @@ public class CfgController {
 			prop.load(input);
 
 			// get the property value and print it out
-			dbEnv = prop.getProperty("db.env");
+
+			if (System.getenv("DBENV") != null) {
+				dbEnv = System.getenv("DBENV");
+			} else
+				dbEnv = prop.getProperty("db.env");
 			dbType = prop.getProperty("db.type");
-			dbName = prop.getProperty("db.name");		
+			dbName = prop.getProperty("db.name");
 			dbServerUrl = prop.getProperty("db.url");
-			
-			dbPort = prop.getProperty(dbType+".port");
-			dbUser = prop.getProperty(dbType+".user");
-			dbPass = prop.getProperty(dbType+".pass");
-			
+
+			dbPort = prop.getProperty(dbType + ".port");
+			dbUser = prop.getProperty(dbType + ".user");
+			dbPass = prop.getProperty(dbType + ".pass");
+
 			if (dbEnv.equals("local")) {
 				setDbAddress(dbServerUrl + ":" + dbPort + "/" + dbName);
 			} else {
 				getAwsConfig();
 			}
-			
-			dbReplicaSetIPs = prop.getProperty("mongo.db.replicasetips").split(",");				
+
+			dbReplicaSetIPs = prop.getProperty("mongo.db.replicasetips").split(",");
 			dbServerAdresses = new ArrayList<ServerAddress>();
-			
-			for( String ips : dbReplicaSetIPs) {
-				dbServerAdresses.add( new ServerAddress(ips, 27017) );
+
+			for (String ips : dbReplicaSetIPs) {
+				dbServerAdresses.add(new ServerAddress(ips, 27017));
 			}
-			
+
 		} catch (FileNotFoundException ex) {
-			
+
 			getAwsConfig();
-			
+
 		} catch (IOException ex) {
-			
+
 			ex.printStackTrace();
 			dbEnv = "local";
 			dbServerUrl = "localhost";
@@ -114,86 +118,92 @@ public class CfgController {
 		}
 
 	}
-	
+
 	/**
 	 * @return the dbServerUrl
 	 */
-	public  String getDbServerUrl() {
+	public String getDbServerUrl() {
 		return dbServerUrl;
 	}
 
 	/**
-	 * @param dbServerUrl the dbServerUrl to set
+	 * @param dbServerUrl
+	 *            the dbServerUrl to set
 	 */
-	public  void setDbServerUrl(String dbServerUrl) {
+	public void setDbServerUrl(String dbServerUrl) {
 		CfgController.dbServerUrl = dbServerUrl;
 	}
 
 	/**
 	 * @return the dbPort
 	 */
-	public  String getDbPort() {
+	public String getDbPort() {
 		return dbPort;
 	}
 
 	/**
-	 * @param dbPort the dbPort to set
+	 * @param dbPort
+	 *            the dbPort to set
 	 */
-	public  void setDbPort(String dbPort) {
+	public void setDbPort(String dbPort) {
 		CfgController.dbPort = dbPort;
 	}
 
 	/**
 	 * @return the dbName
 	 */
-	public  String getDbName() {
+	public String getDbName() {
 		return dbName;
 	}
 
 	/**
-	 * @param dbName the dbName to set
+	 * @param dbName
+	 *            the dbName to set
 	 */
-	public  void setDbName(String dbName) {
+	public void setDbName(String dbName) {
 		CfgController.dbName = dbName;
 	}
 
 	/**
 	 * @return the dbEnv
 	 */
-	public  String getDbEnv() {
+	public String getDbEnv() {
 		return dbEnv;
 	}
 
 	/**
-	 * @param dbEnv the dbEnv to set
+	 * @param dbEnv
+	 *            the dbEnv to set
 	 */
-	public  void setDbEnv(String dbEnv) {
+	public void setDbEnv(String dbEnv) {
 		CfgController.dbEnv = dbEnv;
 	}
 
 	/**
 	 * @return the dbReplicaSetIPs
 	 */
-	public  String[] getDbReplicaSetIPs() {
+	public String[] getDbReplicaSetIPs() {
 		return dbReplicaSetIPs;
 	}
 
 	/**
-	 * @param dbReplicaSetIPs the dbReplicaSetIPs to set
+	 * @param dbReplicaSetIPs
+	 *            the dbReplicaSetIPs to set
 	 */
-	public  void setDbReplicaSetIPs(String[] dbReplicaSetIPs) {
+	public void setDbReplicaSetIPs(String[] dbReplicaSetIPs) {
 		CfgController.dbReplicaSetIPs = dbReplicaSetIPs;
 	}
 
 	/**
 	 * @return the dbServerAdresses
 	 */
-	public  List<ServerAddress> getDbServerAdresses() {
+	public List<ServerAddress> getDbServerAdresses() {
 		return dbServerAdresses;
 	}
 
 	/**
-	 * @param dbServerAdresses the dbServerAdresses to set
+	 * @param dbServerAdresses
+	 *            the dbServerAdresses to set
 	 */
 	public void setDbServerAdresses(List<ServerAddress> dbServerAdresses) {
 		CfgController.dbServerAdresses = dbServerAdresses;
@@ -230,5 +240,5 @@ public class CfgController {
 	public void setDbPass(String dbPass) {
 		CfgController.dbPass = dbPass;
 	}
-	
+
 }

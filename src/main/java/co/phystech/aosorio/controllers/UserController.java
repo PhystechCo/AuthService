@@ -68,13 +68,13 @@ private final static Logger slf4jLogger = LoggerFactory.getLogger(UserController
 				
 		} catch (UnrecognizedPropertyException ex ) {
 			
-			slf4jLogger.debug("Problem adding book");
+			slf4jLogger.info("Problem adding new user");
 			pResponse.status(Constants.HTTP_BAD_REQUEST);
 			return returnMessage.getNotOkMessage("Problem adding user");
 			
 		} catch (IOException jpe) {
 
-			slf4jLogger.debug("Problem adding book");
+			slf4jLogger.info("Problem adding user");
 			pResponse.status(Constants.HTTP_BAD_REQUEST);
 			return returnMessage.getNotOkMessage("Problem adding user");
 		} 
